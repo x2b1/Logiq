@@ -37,7 +37,9 @@ class DatabaseManager:
                 self.uri,
                 maxPoolSize=self.pool_size,
                 minPoolSize=1,
-                serverSelectionTimeoutMS=5000
+                serverSelectionTimeoutMS=5000,
+                tls=True,
+                tlsAllowInvalidCertificates=False
             )
             self.db = self.client[self.database_name]
             # Test connection
