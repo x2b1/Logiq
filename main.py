@@ -63,7 +63,8 @@ class Logiq(commands.Bot):
             self.logger.info("Database connected successfully")
         except Exception as e:
             self.logger.error(f"Failed to connect to database: {e}", exc_info=True)
-            sys.exit(1)
+            self.logger.warning("Bot will continue without database functionality")
+            self.db = None  # Disable database operations
 
         # Load cogs
         await self.load_cogs()
@@ -139,7 +140,8 @@ class Logiq(commands.Bot):
     async def close(self):
         """Cleanup when bot is shutting down"""
         self.logger.info("Shutting down bot...")
-        await self.db.disconnect()
+        if self.db:
+            await self.db.disconnect()
         await super().close()
 
 

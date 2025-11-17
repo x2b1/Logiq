@@ -3,7 +3,7 @@
 
 bot:
   token: "${DISCORD_BOT_TOKEN}"
-  prefix: "/"  # Slash commands only
+  prefix: "x"  # Hybrid commands (slash + prefix)
   status: "online"
   activity: "Managing your community"
   activity_type: "watching"  # playing, watching, listening, streaming

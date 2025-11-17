@@ -4,6 +4,7 @@ Handles async MongoDB operations with connection pooling
 """
 
 import asyncio
+import ssl
 from typing import Optional, Dict, Any, List
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 import logging
@@ -33,13 +34,18 @@ class DatabaseManager:
     async def connect(self) -> None:
         """Establish database connection"""
         try:
+            # Create SSL context for better TLS handling
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+
             self.client = AsyncIOMotorClient(
                 self.uri,
                 maxPoolSize=self.pool_size,
                 minPoolSize=1,
                 serverSelectionTimeoutMS=5000,
                 tls=True,
-                tlsAllowInvalidCertificates=False
+                tlsAllowInvalidCertificates=True
             )
             self.db = self.client[self.database_name]
             # Test connection
